@@ -1,0 +1,15 @@
+<suite name="API Test Suite">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="API Tests">
+        <classes>
+            <class name="tests.AuthTests"/>
+            <class name="tests.TestimonialTests"/>
+            <class name="tests.CourseTests"/>
+        </classes>
+    </test>
+
+</suite>
