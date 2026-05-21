@@ -51,8 +51,10 @@ public class TestimonialTests {
 
         Response response =
                 RequestBuilder.getRequest()
+                        .pathParam("id", CommonData.testimonialId)
                         .body(payload)
-                        .put(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
+                        .put(Endpoints.TESTIMONIALS + "/{id}")
+                        //.put(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
                         .then()
                         .extract().response();
 
@@ -64,7 +66,9 @@ public class TestimonialTests {
 
         Response response =
                 builders.RequestBuilder.getRequest()
-                        .delete(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
+                        .pathParam("id", CommonData.testimonialId)
+                        .delete(Endpoints.TESTIMONIALS + "/{id}")
+                        //.delete(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
                         .then()
                         .extract().response();
 
@@ -76,13 +80,16 @@ public class TestimonialTests {
 
         Response response =
                 builders.RequestBuilder.getRequest()
-                        .get(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
+                        //.get(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
+                        .pathParam("id", CommonData.testimonialId)
+                        .get(Endpoints.TESTIMONIALS + "/{id}")
                         .then()
                         .extract().response();
 
         Assert.assertEquals(response.getStatusCode(), 404);
     }
 }
+
 
 
 

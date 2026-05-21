@@ -2,8 +2,8 @@ package builders;
 
 import commons.CommonData;
 import io.restassured.specification.RequestSpecification;
-
 import static io.restassured.RestAssured.given;
+
 
 public class RequestBuilder {
 
@@ -19,3 +19,6 @@ public class RequestBuilder {
         return spec;
     }
 }
+
+
+//Reusable request specification.

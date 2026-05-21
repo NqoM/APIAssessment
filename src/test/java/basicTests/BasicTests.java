@@ -10,7 +10,6 @@ import static io.restassured.RestAssured.given;
 public class BasicTests {
 
     String BaseURL = "https://www.ndosiautomation.co.za/APIDEV";
-
     String token;
     String testimonialId;
 

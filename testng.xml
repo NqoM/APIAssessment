@@ -1,15 +1,18 @@
-<suite name="API Test Suite">
+<suite name="API Automation Suite">
 
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
 
     <test name="API Tests">
+
         <classes>
-            <class name="tests.AuthTests"/>
+            <class name="tests.AuthTest"/>
             <class name="tests.TestimonialTests"/>
-            <class name="tests.CourseTests"/>
+            <class name="tests.CourseTest"/>
+            <class name="tests.NegativeTest"/>
         </classes>
+
     </test>
 
 </suite>
