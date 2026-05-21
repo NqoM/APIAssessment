@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import builders.PayloadBuilder;
 import commons.CommonData;
 import endpoints.Endpoints;
 import io.restassured.response.Response;
@@ -10,25 +11,22 @@ import builders.RequestBuilder;
 
 public class AuthTest extends BaseTest {
 
-    @Test
+    @Test(priority = 1)
     public void adminLoginTest() {
 
-        String payload = "{\n" +
-                "  \"email\": \"admin@gmail.com\",\n" +
-                "  \"password\": \"@12345678\"\n" +
-                "}";
-
         Response response =
-                RequestBuilder.getRequest()
-                        .body(payload)
-                        .post(Endpoints.LOGIN)
-                        .then()
-                        .extract().response();
+                RequestBuilder.getRequestSpec()
+                        .body(PayloadBuilder.loginPayload())
+                        .log().all()
+                        .post(Endpoints.LOGIN);
+
+        response.then().log().all();
 
         Assert.assertEquals(response.getStatusCode(), 200);
 
         CommonData.token = response.jsonPath().getString("data.token");
 
-        System.out.println("TOKEN: " + CommonData.token);
+        System.out.println(
+                "TOKEN: " + CommonData.token);
     }
 }

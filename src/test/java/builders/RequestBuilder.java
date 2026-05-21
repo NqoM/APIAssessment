@@ -7,16 +7,18 @@ import static io.restassured.RestAssured.given;
 
 public class RequestBuilder {
 
-    public static RequestSpecification getRequest() {
+    public static RequestSpecification getRequestSpec() {
 
-        RequestSpecification spec = given()
+        return given()
                 .header("Content-Type", "application/json");
+    }
 
-        if (CommonData.token != null) {
-            spec.header("Authorization", "Bearer " + CommonData.token);
-        }
+    public static RequestSpecification getAuthorizedRequestSpec() {
 
-        return spec;
+        return given()
+                .header("Content-Type", "application/json")
+                .header("Authorization",
+                        "Bearer " + CommonData.token);
     }
 }
 

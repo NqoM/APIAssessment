@@ -2,7 +2,8 @@ package tests;
 
 
 import base.BaseTest;
-//import builders.PayloadBuilder;
+import builders.PayloadBuilder;
+import builders.PayloadBuilder;
 import builders.RequestBuilder;
 import commons.CommonData;
 import endpoints.Endpoints;
@@ -16,75 +17,58 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class TestimonialTests {
+public class TestimonialTests extends BaseTest {
+
     @Test(dependsOnMethods = "tests.AuthTest.adminLoginTest")
     public void createTestimonialTest() {
 
-        String payload = "{\n" +
-                "  \"title\": \"Great Course\",\n" +
-                "  \"content\": \"I am enjoying the course\",\n" +
-                "  \"rating\": 5,\n" +
-                "  \"isPublic\": true\n" +
-                "}";
-
-        RequestBuilder RequestBuilder;
         Response response =
-                builders.RequestBuilder.getRequest()
-                        .body(payload)
-                        .post(endpoints.Endpoints.TESTIMONIALS)
-                        .then()
-                        .extract().response();
+                RequestBuilder.getAuthorizedRequestSpec()
+                        .body(PayloadBuilder.createTestimonialPayload())
+                        .log().all()
+                        .post(Endpoints.TESTIMONIALS);
+
+        response.then().log().all();
 
         Assert.assertEquals(response.getStatusCode(), 201);
 
-        CommonData.testimonialId = response.jsonPath().getString("data.Id");
+        CommonData.testimonialId =
+                response.jsonPath().getString("data.Id");
+
+        System.out.println(
+                "ID: " + CommonData.testimonialId);
     }
 
-    @Test(dependsOnMethods = "createTestimonialTest")
+    @Test(priority = 3)
     public void updateTestimonialTest() {
 
-        String payload = "{\n" +
-                "  \"title\": \"Updated Title\",\n" +
-                "  \"content\": \"Updated content\",\n" +
-                "  \"rating\": 4\n" +
-                "}";
-
         Response response =
-                RequestBuilder.getRequest()
-                        .pathParam("id", CommonData.testimonialId)
-                        .body(payload)
-                        .put(Endpoints.TESTIMONIALS + "/{id}")
-                        //.put(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
-                        .then()
-                        .extract().response();
+                RequestBuilder.getAuthorizedRequestSpec()
+                        .body(PayloadBuilder.updateTestimonialPayload())
+                        .log().all()
+                        .put(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId);
 
         Assert.assertEquals(response.getStatusCode(), 200);
     }
 
-    @Test(dependsOnMethods = "updateTestimonialTest")
+    @Test(priority = 4)
     public void deleteTestimonialTest() {
 
         Response response =
-                builders.RequestBuilder.getRequest()
-                        .pathParam("id", CommonData.testimonialId)
-                        .delete(Endpoints.TESTIMONIALS + "/{id}")
-                        //.delete(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
-                        .then()
-                        .extract().response();
+                RequestBuilder.getAuthorizedRequestSpec()
+                        .log().all()
+                        .delete(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId);
 
         Assert.assertEquals(response.getStatusCode(), 200);
     }
 
-    @Test(dependsOnMethods = "deleteTestimonialTest")
+    @Test(priority = 5)
     public void verifyDeletedTestimonialTest() {
 
         Response response =
-                builders.RequestBuilder.getRequest()
-                        //.get(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId)
-                        .pathParam("id", CommonData.testimonialId)
-                        .get(Endpoints.TESTIMONIALS + "/{id}")
-                        .then()
-                        .extract().response();
+                RequestBuilder.getRequestSpec()
+                        .log().all()
+                        .get(Endpoints.TESTIMONIALS + "/" + CommonData.testimonialId);
 
         Assert.assertEquals(response.getStatusCode(), 404);
     }
