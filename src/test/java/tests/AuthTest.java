@@ -8,10 +8,16 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import builders.RequestBuilder;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 
 public class AuthTest extends BaseTest {
 
     @Test(priority = 1)
+    @Feature("Authentication")
+    @Story("Admin Login")
+    @Description("Validate admin can successfully login and generate token")
     public void adminLoginTest() {
 
         Response response =

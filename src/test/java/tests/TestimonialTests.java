@@ -39,7 +39,7 @@ public class TestimonialTests extends BaseTest {
                 "ID: " + CommonData.testimonialId);
     }
 
-    @Test(priority = 3)
+    @Test(dependsOnMethods = "createTestimonialTest")
     public void updateTestimonialTest() {
 
         Response response =
@@ -51,7 +51,7 @@ public class TestimonialTests extends BaseTest {
         Assert.assertEquals(response.getStatusCode(), 200);
     }
 
-    @Test(priority = 4)
+    @Test(dependsOnMethods = "updateTestimonialTest")
     public void deleteTestimonialTest() {
 
         Response response =
@@ -62,7 +62,7 @@ public class TestimonialTests extends BaseTest {
         Assert.assertEquals(response.getStatusCode(), 200);
     }
 
-    @Test(priority = 5)
+    @Test(dependsOnMethods = "deleteTestimonialTest")
     public void verifyDeletedTestimonialTest() {
 
         Response response =
